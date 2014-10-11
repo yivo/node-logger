@@ -1,0 +1,26 @@
+{
+  "name": "yivo-node-log",
+  "version": "1.0.0",
+  "description": "application output",
+  "main": "log.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yivo/node-log"
+  },
+  "author": "Yaroslav Konoplov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yivo/node-log/issues"
+  },
+  "homepage": "https://github.com/yivo/node-log",
+  "files": [
+    "log.coffee"
+  ],
+  "dependencies": {
+    "colors": "^1.0.3",
+    "printf": "^0.2.0"
+  }
+}
