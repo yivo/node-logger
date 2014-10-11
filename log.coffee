@@ -3,48 +3,51 @@ printf = require 'printf'
 
 class OutputMediator
 
-  separatorString: Array(80).join '-'
+  separator: Array(80).join '-'
 
-  output: (alertion, args) ->
+  constructor: (sender) ->
+    @sender = sender
+
+  output: (sender, alertion, args) ->
     return unless args.length
     message = printf args...
     args = []
-    args.push @decoratedSender()
-    alertion = alertion[0].toUpperCase() + alertion.slice(1)
-    args.push @['decorated' + alertion]()
+    args.push @decoratedSender sender if sender
+    args.push @decorateAlertion alertion if alertion
     args.push message
     console.log args...
 
   err: (args...) ->
-    @output 'err', args
+    @output @sender, 'err', args
 
   ok: (args...) ->
-    @output 'ok', args
+    @output @sender, 'ok', args
 
   warn: (args...) ->
-    @output 'warn', args
+    @output @sender, 'warn', args
 
   sep: ->
-    console.log @separatorString
+    console.log @separator
 
-  decoratedSender: ->
-    if @__from then String(@__from).magenta else 'global'
+  decorateAlertion: (alertion) ->
+    alertion = alertion.toUpperCase()
+    switch alertion
+      when 'OK'
+        alertion.bgGreen.black
+      when 'ERR'
+        alertion.bgRed.black
+      when 'WARN'
+        alertion.bgYellow.black
+      else
+        alertion
 
-  decoratedOk: ->
-    'OK'.bgGreen.black
+  decoratedSender: (sender) ->
+    sender.magenta
 
-  decoratedErr: ->
-    'ERR'.bgRed.black
+  @channelFor: (->
+    cache = {}
+    (sender) ->
+      cache[sender] || (cache[sender] = new @(sender))
+  )()
 
-  decoratedWarn: ->
-    'WARN'.bgYellow.black
-
-  global: ->
-    @__from = null
-    @
-
-  from: (sender) ->
-    @__from = sender
-    @
-
-module.exports = new OutputMediator()
+module.exports = OutputMediator
