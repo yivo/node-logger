@@ -44,10 +44,7 @@ class OutputMediator
   decoratedSender: (sender) ->
     sender.magenta
 
-  @channelFor: (->
-    cache = {}
-    (sender) ->
-      cache[sender] || (cache[sender] = new @(sender))
-  )()
+  @create: (sender) ->
+    new @ sender
 
 module.exports = OutputMediator
