@@ -8,7 +8,7 @@ class OutputMediator
   constructor: (sender) ->
     @sender = sender
 
-  print: (sender, alertion, args) ->
+  print: (alertion, sender, args...) ->
     return unless args.length
     message = printf args...
     args = []
@@ -18,13 +18,13 @@ class OutputMediator
     console.log args...
 
   err: (args...) ->
-    @print @sender, 'err', args
+    @print ['err', @sender].concat(args)...
 
   ok: (args...) ->
-    @print @sender, 'ok', args
+    @print ['ok', @sender].concat(args)...
 
   warn: (args...) ->
-    @print @sender, 'warn', args
+    @print ['warn', @sender].concat(args)...
 
   sep: ->
     console.log @separator
