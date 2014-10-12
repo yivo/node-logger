@@ -16,6 +16,7 @@ class OutputMediator
     args.push @decorateAlertion alertion if alertion
     args.push message
     console.log args...
+    @
 
   err: (args...) ->
     @print ['err', @sender].concat(args)...
