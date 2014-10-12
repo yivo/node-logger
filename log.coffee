@@ -12,8 +12,8 @@ class OutputMediator
     return unless args.length
     message = printf args...
     args = []
-    args.push @decoratedSender sender if sender
     args.push @decorateAlertion alertion if alertion
+    args.push @decoratedSender sender if sender
     args.push message
     console.log args...
     @
