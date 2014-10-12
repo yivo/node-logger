@@ -8,7 +8,7 @@ class OutputMediator
   constructor: (sender) ->
     @sender = sender
 
-  output: (sender, alertion, args) ->
+  print: (sender, alertion, args) ->
     return unless args.length
     message = printf args...
     args = []
@@ -18,13 +18,13 @@ class OutputMediator
     console.log args...
 
   err: (args...) ->
-    @output @sender, 'err', args
+    @print @sender, 'err', args
 
   ok: (args...) ->
-    @output @sender, 'ok', args
+    @print @sender, 'ok', args
 
   warn: (args...) ->
-    @output @sender, 'warn', args
+    @print @sender, 'warn', args
 
   sep: ->
     console.log @separator
@@ -46,5 +46,8 @@ class OutputMediator
 
   @create: (sender) ->
     new @ sender
+
+  @disable: ->
+    @::print = ->
 
 module.exports = OutputMediator
