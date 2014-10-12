@@ -26,8 +26,14 @@ class OutputMediator
   warn: (args...) ->
     @print ['warn', @sender].concat(args)...
 
+  info: (args...) ->
+    @print ['info', @sender].concat(args)...
+
   sep: ->
-    console.log @separator
+    @print null, null, @separator
+
+  n: ->
+    @print null, null, "\n"
 
   decorateAlertion: (alertion) ->
     alertion = alertion.toUpperCase()
@@ -38,6 +44,8 @@ class OutputMediator
         alertion.bgRed.black
       when 'WARN'
         alertion.bgYellow.black
+      when 'INFO'
+        alertion.bgWhite.black
       else
         alertion
 
