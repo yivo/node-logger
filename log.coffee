@@ -1,62 +1,59 @@
 colors = require 'colors'
-printf = require 'printf'
 
 class OutputMediator
 
-  separator: Array(80).join '-'
+  separator: Array(80).join('-')
 
-  constructor: (sender) ->
-    @sender = sender
+  constructor: (@sender) ->
 
-  print: (alertion, sender, args...) ->
-    return unless args.length
-    message = printf args...
-    args = []
-    args.push @decorateAlertion alertion if alertion
-    args.push @decoratedSender sender if sender
-    args.push message
-    console.log args...
-    @
-
-  err: (args...) ->
-    @print ['err', @sender].concat(args)...
+  print: (alertion, args...) ->
+    args.unshift @decorateAlertion(alertion)
+    args.unshift @decoratedSender(@sender)
+    console.log(args...)
+    this
 
   ok: (args...) ->
-    @print ['ok', @sender].concat(args)...
+    args.unshift('okay')
+    @print(args...)
+
+  err: (args...) ->
+    args.unshift('err!')
+    @print(args...)
 
   warn: (args...) ->
-    @print ['warn', @sender].concat(args)...
+    args.unshift('warn')
+    @print(args...)
 
   info: (args...) ->
-    @print ['info', @sender].concat(args)...
+    args.unshift('info')
+    @print(args...)
 
   sep: ->
-    @print null, null, @separator
+    console.log(@separator)
+    this
 
   n: ->
-    @print null, null, "\n"
+    console.log("\n")
+    this
 
   decorateAlertion: (alertion) ->
-    alertion = alertion.toUpperCase()
-    switch alertion
-      when 'OK'
-        alertion.bgGreen.black
-      when 'ERR'
-        alertion.bgRed.black
+    result = alertion.toUpperCase()
+    switch result
+      when 'OKAY'
+        result.bgGreen.black
+      when 'ERR!'
+        result.bgRed.black
       when 'WARN'
-        alertion.bgYellow.black
+        result.bgYellow.black
       when 'INFO'
-        alertion.bgWhite.black
+        result.bgWhite.black
       else
-        alertion
+        result
 
   decoratedSender: (sender) ->
-    sender.magenta
+    sender.bgBlack.white
 
   @create: (sender) ->
-    new @ sender
-
-  @disable: ->
-    @::print = ->
+    new this(sender)
 
 module.exports = OutputMediator
