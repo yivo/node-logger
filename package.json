@@ -2,7 +2,7 @@
   "name": "node-logger",
   "version": "1.0.0",
   "description": "Pretty application output",
-  "main": "log.js",
+  "main": "logger.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/yivo/node-logger",
   "files": [
-    "log.coffee",
-    "log.js"
+    "logger.coffee",
+    "logger.js"
   ],
   "dependencies": {
     "coffee-script": "^1.9.3",
